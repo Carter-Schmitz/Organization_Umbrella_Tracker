@@ -27,6 +27,7 @@ const promptMessages = {
     updateRole: "Update Employee Role",
     updateEmployeeManager: "Update Employee Manager",
     viewAllRoles: "View All Roles",
+    addDepartment: "Add a Department",
     exit: "Exit"
 };
 
@@ -44,6 +45,7 @@ function prompt() {
                 promptMessages.addEmployee,
                 promptMessages.removeEmployee,
                 promptMessages.updateRole,
+                promptMessages.addDepartment,
                 promptMessages.exit
             ]
         })
@@ -76,6 +78,10 @@ function prompt() {
 
                 case promptMessages.viewAllRoles:
                     viewAllRoles();
+                    break;
+
+                case promptMessages.addDepartment:
+                    addDepartment();
                     break;
 
                 case promptMessages.exit:
@@ -318,3 +324,23 @@ function askId() {
         }
     ]);
 };
+
+function askDept() {
+    return([
+        {
+            name: "Deptname",
+            type: "input",
+            message: "What is the name of the new Department?"
+        }
+    ])
+}
+
+async function addDepartment() {
+    const addDept = await inquirer.prompt(askDept());
+    connection.query('INSERT INTO department SET ?', 
+    {
+        name: addDept.Deptname
+    })
+    console.log('Department has been added.');
+    prompt();
+}
