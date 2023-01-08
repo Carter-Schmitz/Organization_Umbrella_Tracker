@@ -1,5 +1,6 @@
-const mysql = require('mysql2');
+const mysql = require('mysql');
 const inquirer = require('inquirer');
+require('./handlers');
 require('console.table');
 
 const connection = mysql.createConnection({
@@ -86,4 +87,4 @@ function prompt() {
                     break;
             }
         });
-}
+};

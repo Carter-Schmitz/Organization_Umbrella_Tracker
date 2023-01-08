@@ -231,3 +231,5 @@ function askId() {
         }
     ]);
 };
+
+module.exports = 'handlers';
