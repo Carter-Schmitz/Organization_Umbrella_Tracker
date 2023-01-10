@@ -15,6 +15,8 @@
   ## Description 
   A command line interface to manage and view data about employees in an organization. The user is able to view all information, sorted by various different parameters. They are also able to add employees, remove them, and update their roles within the company. 
 
+[Untitled_ Jan 9, 2023 10_11 PM.webm](https://user-images.githubusercontent.com/113850230/211460456-39d3ac89-e3b5-4303-8849-b1f1e07e5a1d.webm)
+
   ## Installation 
   N/A All should be included in the repo
 
