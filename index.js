@@ -1,6 +1,7 @@
 const mysql = require('mysql2');
 const inquirer = require('inquirer');
 require('console.table');
+const handlers = require('./handlers');
 
 const connection = mysql.createConnection({
     host: 'localhost',
@@ -27,6 +28,9 @@ const promptMessages = {
     updateRole: "Update Employee Role",
     updateEmployeeManager: "Update Employee Manager",
     viewAllRoles: "View All Roles",
+    viewAllDepartments: "View All Departments",
+    addDepartment: "Add a Department",
+    addRole: "Add a Role",
     exit: "Exit"
 };
 
@@ -44,6 +48,9 @@ function prompt() {
                 promptMessages.addEmployee,
                 promptMessages.removeEmployee,
                 promptMessages.updateRole,
+                promptMessages.addDepartment,
+                promptMessages.viewAllDepartments,
+                promptMessages.addRole,
                 promptMessages.exit
             ]
         })
@@ -76,6 +83,18 @@ function prompt() {
 
                 case promptMessages.viewAllRoles:
                     viewAllRoles();
+                    break;
+
+                case promptMessages.addDepartment:
+                    addDepartment();
+                    break;
+
+                case promptMessages.viewAllDepartments:
+                    viewAllDepartments();
+                    break;
+
+                case promptMessages.addRole:
+                    addRole();
                     break;
 
                 case promptMessages.exit:
@@ -317,4 +336,56 @@ function askId() {
             message: "What is the employe ID?:  "
         }
     ]);
+};
+
+function askDept() {
+    return([
+        {
+            name: "Deptname",
+            type: "input",
+            message: "What is the name of the new Department?"
+        }
+    ])
+};
+
+function askRole(){
+    return([
+        {
+            name: "rolename",
+            type: "input",
+            message: "What is the new role you would like to add?"
+        }
+    ])
+};
+
+async function addDepartment() {
+    const addDept = await inquirer.prompt(askDept());
+    connection.query('INSERT INTO department SET ?', 
+    {
+        name: addDept.Deptname
+    })
+    console.log('Department has been added.');
+    prompt();
+};
+
+function viewAllDepartments() {
+    const query = `SELECT * FROM department;`;
+    connection.query(query, (err, res) => {
+        if (err) throw err;
+        console.log('\n');
+        console.log('VIEW ALL DEPARTMENTS');
+        console.log('\n');
+        console.table(res);
+        prompt();
+    });
+};
+
+async function addRole(){
+    const addRole = await inquirer.prompt(askRole());
+    connection.query('INSERT INTO role SET ?', 
+    {
+        title: addRole.rolename
+    })
+    console.log('Role has been added.');
+    prompt();
 };
